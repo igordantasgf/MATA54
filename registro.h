@@ -4,12 +4,13 @@ typedef struct{
     int chave;
     char nome[20];
     int idade;
-} Registro;
+} Dados;
 
 typedef struct{
-    Registro atual;
+    Dados dados;
     int nivel;
-    Registro *pai;
-    Registro *irmao_esq;
-    Registro *irmao_dir;
-} Estrutura;
+    Dados *pai;
+    Dados *irmao_esq;
+    Dados *irmao_dir;
+    bool raiz;
+} Registro;
