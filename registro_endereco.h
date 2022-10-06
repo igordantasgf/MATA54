@@ -7,15 +7,22 @@ typedef struct{
 } Dados;
 
 typedef struct{
-    int *endereco_dir;
-    int *endereco_esq;
-    int *pai;
-    int nivel;
+    Registro *endereco_dir = NULL;
+    Registro *endereco_esq = NULL;
+    Endereco *pai = NULL;
     Dados dados;
 } Registro;
 
 typedef struct{
-    int *pai;
-    Registro dir;
-    Registro esq;
-} endereco;
+    int valor;
+    Endereco *end_esq;
+    Endereco *end_ dir;
+} Chave;
+
+typedef struct{
+    Chave *dir = NULL;
+    Chave *esq = NULL;
+    Chave *filho = NULL;
+    Registro *filho_regs = NULL;
+
+} Endereco; 
