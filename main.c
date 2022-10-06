@@ -5,7 +5,7 @@
 
 // Função para contar a quantidade de chaves em um nó
 int contador_chaves(Registro *raiz, int nivel){
-
+// abcd
 }
 
 int main(){
