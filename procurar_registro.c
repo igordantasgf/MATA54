@@ -12,9 +12,9 @@ int procurar_registro(int chave){
 		exit(-1);
 	}
 
-    Registro r;
-    Endereco e;
-    Chave c;
+    Registro r; // nivel mais baixo da arvore, armazenando registros
+    Endereco e; // armazena apontador para filho, chave esq e dir
+    Chave c; // armazena chave, e enderecos esq e dir
 
     /* Por definição a ser feita no código "inserindo_registro",
         a raíz do arquivo sempre será nos (2*GRAU_MINIMO-1) endereços
@@ -22,7 +22,7 @@ int procurar_registro(int chave){
     */
 
     fseek(f,0, SEEK_SET);
-    fread(&e, sizeof(endereco), 1, f);
+    fread(&e, sizeof(Endereco), 1, f);
         
     if(e.dir == -1){ // Caso de lista vazia: primeiro apontador não aponta para ninguém
 
@@ -46,6 +46,7 @@ int procurar_registro(int chave){
                 if(r.dados.chave == chave){     // 0.1 - chave encontrada 
 
                     print("chave: %d\nnome: %s\nidade: %d");
+                    return(1);
 
                 }else{                          // 0.2 - Ainda não é a chave atual
                     if(r.endereco_dir == NULL){     //  0.2.1 - Fim da partição de registros (chegou em um endereco) = nao encontrou
@@ -59,9 +60,9 @@ int procurar_registro(int chave){
             fseek(f, p, SEEK_SET); // lendo chave no endereço p
             fread(&c, sizeof(Chave), 1, f);
 
-            if(c.valor <= chave){ // 1 - chave > valor na Chave
+            if(c.valor <= chave){ // 1 -> chave > valor na Chave
                 fseek(f, c.end_dir, SEEK_SET);
-                fread(&e, sizeof(endereco), 1, f);
+                fread(&e, sizeof(Endereco), 1, f);
                 
                 if(e.dir==NULL){        // 1.1 - sem chaves a direita
                     if(e.filho!=NULL){     // 1.1.1 - tem chave como filho
