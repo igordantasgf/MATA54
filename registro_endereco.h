@@ -32,5 +32,5 @@ typedef struct{
 } Endereco;
 
 typedef struct{
-    Registro r;
+    Registro *r;
 } SetaNo;
