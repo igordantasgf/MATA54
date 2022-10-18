@@ -1,6 +1,6 @@
 #include<stdbool.h>
 #define GRAU 3
-#define FCS 2
+#define FATOR 2
 
 typedef struct{
     int chave;
@@ -11,26 +11,13 @@ typedef struct{
 typedef struct{
     Registro *endereco_dir;
     Registro *endereco_esq;
-    Endereco *pai;
+    Chave *pai;
     Dados dados;
     int indice;
-    SetaNo *seta;
 } Registro;
 
 typedef struct{
     int valor;
-    Endereco *end_esq;
-    Endereco *end_dir;
+    Registro *end_esq;
+    Registro *end_dir;
 } Chave;
-
-typedef struct{
-    Chave *dir;
-    Chave *esq;
-    Chave *filho;
-    Registro *filho_regs;
-
-} Endereco;
-
-typedef struct{
-    Registro *r;
-} SetaNo;

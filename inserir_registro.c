@@ -3,87 +3,90 @@
 
 #include "registro_endereco.h"
 
-void inserir_bloco_r(FILE *f, Registro r_inicio ,int n_registros, int grau, Registro r){ // navega no bloco de registros para inserir
+void inserindo(Registro r_pai, Registro *pont_pai, Registro r_filho, bool direita, FILE *f){ // colocando registro em um nó
+    if(direita==true){
+        fseek(f, 0, SEEK_END); // armazena registro como filho esquerdo 
+        unsigned long position = ftell(f);
+        r_filho.pai = pont_pai;
+        fwrite(&r_filho, sizeof(Registro), 1, f);
 
-}
+        r_pai.endereco_dir = position; // salva o endereço do filho esquerdo 
+        fseek(f, pont_pai, SEEK_SET);
+        fwrite(&r_pai, sizeof(Registro), 1, f);
+        return;
 
-void inserir_raiz_r(FILE *f, Chave *raiz_chave, int n_registros, int grau, Registro r){// busca o espaço para inserção partindo da raiz
+    }else{
+        fseek(f, 0, SEEK_END); // armazena registro como filho esquerdo 
+        unsigned long position = ftell(f);
+        r_filho.pai = pont_pai;
+        fwrite(&r, sizeof(Registro), 1, f);
 
-}
+        r_pai.endereco_esq = position; // salva o endereço do filho esquerdo 
+        fseek(f, pont_pai, SEEK_SET);
+        fwrite(&r_pai, sizeof(Registro), 1, f);
+        return;
 
-Chave inserir(FILE *f, Chave *raiz_chave, int n_registros, int grau, int chave, char nome[20], int idade){
-    
-    f = fopen("dados","w+b");
-    SetaNo s;
-    
-    int i_no=0;
-
-    // Criação do registro para inserção
-    Registro r, r_dir, r_esq;
-    r.dados.chave = chave;
-    r.dados.idade= idade;
-    for(int i=0;i<20;i++){
-        r.dados.nome[i] = nome[i];
     }
 
-    // Algumas instruções prévias:
-    //      1. Ter uma variável que indica se já existem chaves;
-    //      2. Caso tenha, começar a busca fseek através dessa raiz;
-    //      3. Senão, começar fseek por 0, ou seja, o primeiro registro;
+}
 
-    // Caso 1: Arquivo vazio
+void inserir_no_r(FILE *f, Registro *pont_pai, bool direita, int n_registros, int fator, Registro r){ // navega no bloco de registros para inserir   
+    // Sentido: 0=esq, 1=dir
+    f = fopen("dados","rb+");
+    int i = 0;
+    int contador = 0;
+    Registro r_contador, r_escrito, r_pai;
+    Registro *r_apontador;
+    unsigned long position;
 
-    if(n_registros==0){
-        r.indice=1;
-        fseek(f, 0, SEEK_SET);
-        fwrite(&r,sizeof(Registro), 1, f);
+    if (!(f = fopen("dados","r+"))) {
+		printf ("Erro na abertura do arquivo \"dados\" - Programa abortado\n");
+		exit(-1);       
+	}   
 
-    // Caso 2: Arquivo não vazio
+    fseek(f, pont_pai, SEEK_SET);
+    fread(&r_pai, sizeof(Registro), 1, f);
+    
+    // Inserção de um registro no nó final de registros
 
-    }else{ 
-        if(raiz_chave!=NULL){ // se não houver chave como raíz, insere diretamente na fila de registros
-            fseek(f, 0, SEEK_SET);
-            while(1){
-                fread(&r_dir, sizeof(Registro), 1, f);
-                i_no++;
-                if(r_dir.dados.chave >= r.dados.chave){//insere a esquerda
-                    if(i_no == 2*grau-1){ // quebra do bloco de registros
-                        /// quebra_registro();
-                    }else{
-                        if(r_dir.endereco_esq==NULL){ // se estiver no inicio da fila de registros
-                           
-                            fread(&r_dir, sizeof(Registro), 1, f);
-                        }
-                    }
-                }else{ // 
+    if(direita==true){//esq
+        
+        if(r_pai.endereco_esq==NULL){ // se nó a esquerda está vazio         
+            inserindo(r_pai, pont_pai, r, direita, f);
+        }else{  
+            contador=0;
+            fseek(f, r_pai.endereco_esq, SEEK_SET);
 
+            while(1){// checagem de registros no nó   
+                contador++;
+                fread(&r_contador, sizeof(Registro), 1, f);
+                if(r_contador.endereco_dir==NULL || contador==2*FATOR-1){
+                    break;
+                }else{
+                    r_apontador = r_contador.endereco_dir;
+                    fseek(f, r_apontador, SEEK_SET);
                 }
             }
-            
 
-            /*while(1){
-                fread(&r, sizeof(Registro), 1, f);
-                i_no++;
-                if(r.dados.chave<chave){ // 1.1 : procurando espaço para o registro
-                    if(r.endereco_dir!=NULL){
-                        fseek(f, r.endereco_dir, SEEK_SET);
-                        continue;
-                    }
-                    if(r.seta!=NULL){
-                        fseek(f, r.seta, SEEK_SET);
-                        fread(&s, sizeof(s), 1, f);
-                        fseek(f, s.r, SEEK_SET);
-                        i_no=0;
-                        continue;
-                    }
-                    if(r.seta==NULL && r.endereco_dir==NULL){//fim da linha de registros: insere
+            if(contador==2*FATOR-1){
+                quebra_no_registros(); 
+            }else{ // inserção no espaço vazio do nó
+                fseek(f, 0, SEEK_END);
+                r.indice = contador;
+                r.endereco_esq = r_apontador;
+                position = ftell(f);
+                fwrite(&r, sizeof(Registro), 1, f);
 
-                    }
-                }else{ // 1.2 : insere à esquerda se um registro maior ou igual a ele
-
-                }
-            }*/
-        }else{ // inserção a partir das chaves (raiz)
+                fseek(f, r_apontador, SEEK_SET);
+                fread(&r_contador, sizeof(Registro), 1, f);
+                r_contador.endereco_dir = position;
+                fseek(f, r_apontador, SEEK_SET);
+                fwrite(&r_contador, sizeof(Registro), 1, f);
+            }
+        }
+    }else{//dir
+        if(r_pai.endereco_dir==NULL){ // se nó a direita está vazio
+            inserindo(r_pai, pont_pai, r, direita, f);
 
         }
     }

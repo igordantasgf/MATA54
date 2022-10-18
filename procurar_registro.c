@@ -26,7 +26,7 @@ int procurar_registro(int chave){
         
     if(e.dir == -1){ // Caso de lista vazia: primeiro apontador não aponta para ninguém
 
-        print("chave nao encontrada: %d",chave);
+        printf("chave nao encontrada: %d",chave);
 
     }else{
 
@@ -45,12 +45,12 @@ int procurar_registro(int chave){
 
                 if(r.dados.chave == chave){     // 0.1 - chave encontrada 
 
-                    print("chave: %d\nnome: %s\nidade: %d");
+                    printf("chave: %d\nnome: %s\nidade: %d");
                     return(1);
 
                 }else{                          // 0.2 - Ainda não é a chave atual
                     if(r.endereco_dir == NULL){     //  0.2.1 - Fim da partição de registros (chegou em um endereco) = nao encontrou
-                        print('chave nao encontrada: %d',chave);
+                        printf("chave nao encontrada: %d",chave);
                     }else{
                         fila = r.endereco_dir;      //  0.2.2 - Passa para o próximo registro a direita
                     }
