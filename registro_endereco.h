@@ -1,4 +1,4 @@
-#include<stdbool.h>
+#include <stdbool.h>
 #define GRAU 3
 #define FATOR 2
 
@@ -9,24 +9,24 @@ typedef struct{
 } Dados;
 
 typedef struct{
-    Registro endereco_dir;
-    Registro endereco_esq;
-    Registro endereco_atual;
-    Chave pai;
+    long endereco_dir;
+    long endereco_esq;
+    long registro_atual;
+    long pai;
     Dados dados;
 } Registro;
 
 typedef struct{
     int valor;
-    Chave pai;
-    Chave atual;
-    Registro end_esq;
-    Registro end_dir;
+    long chave_pai;
+    long chave_atual;
+    long chave_esq;
+    long chave_dir;
+    long registro_esq;
+    long registro_dir;
 } Chave;
 
 typedef struct{
-    Chave dir;
-    Chave esq;
-    Chave filho_chave;
-    Registro filho_registro;
+    long registro_dir;
+    long registro_esq;
 } Endereco;
