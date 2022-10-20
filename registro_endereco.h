@@ -9,15 +9,24 @@ typedef struct{
 } Dados;
 
 typedef struct{
-    Registro *endereco_dir;
-    Registro *endereco_esq;
-    Chave *pai;
+    Registro endereco_dir;
+    Registro endereco_esq;
+    Registro endereco_atual;
+    Chave pai;
     Dados dados;
-    int indice;
 } Registro;
 
 typedef struct{
     int valor;
-    Registro *end_esq;
-    Registro *end_dir;
+    Chave pai;
+    Chave atual;
+    Registro end_esq;
+    Registro end_dir;
 } Chave;
+
+typedef struct{
+    Chave dir;
+    Chave esq;
+    Chave filho_chave;
+    Registro filho_registro;
+} Endereco;
