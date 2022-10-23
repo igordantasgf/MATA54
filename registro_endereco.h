@@ -9,10 +9,10 @@ typedef struct{
 } Dados;
 
 typedef struct{
-    long endereco_dir;
-    long endereco_esq;
+    long registro_dir;
+    long registro_esq;
     long registro_atual;
-    long pai;
+    long endereco_pai;
     Dados dados;
 } Registro;
 
@@ -22,11 +22,4 @@ typedef struct{
     long chave_atual;
     long chave_esq;
     long chave_dir;
-    long registro_esq;
-    long registro_dir;
 } Chave;
-
-typedef struct{
-    long registro_dir;
-    long registro_esq;
-} Endereco;
