@@ -1,2 +1,3 @@
-p = bin(97)
-print(p[1:])
+f = open('texto1.txt','r')
+f.seek(2)
+print(f.read(2))
