@@ -1,5 +1,5 @@
-# MATA54
-##Atividades da disciplina Estruturas de Dados e Algoritmos 2
+# MATA54 - Estruturas de Dados e Algoritmos 2
+## Atividades da disciplina 
 
 ---
 ### Trabalho 1: 
