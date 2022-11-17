@@ -16,9 +16,10 @@
 from ascii import *
 
 class No():
-    def __init__(self,trad,l,r):
-        self.trad = trad # endereço(s) da traducao no arquivom,
-        self.l = None
+    def __init__(self,lis,l,r,bit):
+        self.lis = lis # caso não esteja vazio, contém endereço(s) das palavras no arquivo
+        self.bit = bit   # caso não esteja vazio, indica uma bifurcação, onde bit é a posição da palavra em que
+        self.l = None    # a análise começa
         self.r = None
 
 class Raiz():
@@ -27,16 +28,38 @@ class Raiz():
         self.tipo = tipo    # Tipo = 0: arvore do idioma origem(palavra literal)
                             # Tipo = 1: arvore de traduçoes no idioma destino
 
-    def inserir_no(self,lista,file):     #   data: valor ou valores (em bin) a serem armazenados no arquivo
-        if self.raiz == None:       #   destinos: endereco da palavra no arquivo 1 ou enderecos das traduções no arquivo 2
-            self.raiz = No(lista)  
-        else:
-            self.inserir_no_n(lista,file) 
+    def inserir_no(self,file,lista,no,bit):         # file
+        if self.raiz == None:                       # lista: endereços no arquivo
+            self.raiz = No(lista)                   # no: nó sendo analisado
+        else:                                       # bit: bit onde a analise deve começar
+            self.inserir_no_n(file,lista,no,0) 
 
-    def inserir_no_n(self,no,file):    
+    def inserir_no_n(self,file,lista,no,bit):    
         #analisando 
-        if self.tipo == 0:  # idioma origem
-            f = open(file,'r+')
-            f.seek(no.trad[0]) # primeiro endereço é da palavra original
-            f.read(MAX_PALAVRA)
 
+        if no.lista != None:
+
+            f = open(file,'r+')                     # primeiro endereço é da palavra original
+            f.seek(no.lis[0])                     
+            palavra_no = f.read(MAX_PALAVRA)
+
+            if self.tipo == 0:                          # idioma origem
+                #f = open(file,'r+')                     # primeiro endereço é da palavra original
+                #f.seek(no.lista[0])                     
+                #palavra_no = f.read(MAX_PALAVRA)
+                palavra = lista[0]
+            
+                for i in range(bit,MAX_PALAVRA):
+                    if palavra[i] != palavra_no[i]:
+                        break
+
+                no.bit = i
+
+                if palavra[i] == '0':
+                    no.l = No(lista)
+                    no.r = No(no.lis)
+                    no.lis = None
+                else:
+                    no.l = No(no.lis)
+                    no.r = No(lista)
+                    no.lis = None
