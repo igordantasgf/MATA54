@@ -28,19 +28,25 @@ class Raiz():
         self.tipo = tipo    # Tipo = 0: arvore do idioma origem(palavra literal)
                             # Tipo = 1: arvore de traduçoes no idioma destino
 
-    def inserir_no(self,file,lista,no,bit):         # file
+    def inserir_no(self,file,lista,no):         # file
         if self.raiz == None:                       # lista: endereços no arquivo
             self.raiz = No(lista)                   # no: nó sendo analisado
         else:                                       # bit: bit onde a analise deve começar
             self.inserir_no_n(file,lista,no,0) 
 
+#--------------------------------------
+#
+# Task list:  | | - Colocar padrão para entrar na raíz da árvore
+#             | | - Função para quando nó indica bifurcação
+#
+#--------------------------------------
+
     def inserir_no_n(self,file,lista,no,bit):    
-        #analisando 
+        f = open(file, 'r+')
 
-        if no.lista != None:
+        if no.lis != None:
 
-            f = open(file,'r+')                     # primeiro endereço é da palavra original
-            f.seek(no.lis[0])                     
+            f.seek(no.lista[0])    
             palavra_no = f.read(MAX_PALAVRA)
 
             if self.tipo == 0:                          # idioma origem
@@ -63,3 +69,10 @@ class Raiz():
                     no.l = No(no.lis)
                     no.r = No(lista)
                     no.lis = None
+            f.close()
+            return
+        
+        if no.bit != None:
+
+    
+    def nova_raiz(self,file,lista,no,bit):
