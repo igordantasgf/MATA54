@@ -1,21 +1,29 @@
+from classes import *
 from ascii import *
-from struct import *
-import os
 
-f = open('dic.dat','a+')
-tree = {}
-
-def insert_trad(traducoes, tipo, ):
-     
+file = 'idioma.dat'
+root_origem = Raiz(None,0)
+root_destino = Raiz(None,1)
 
 while(True):
-    
-    #f.seek(0, 2)
+    val = input()
 
-    #if os.stat("dic.dat").st_size == 0: # checa se arquivo está vazio
-    word_in_bits(input())
-    tipo = tipo_lista.get(input())[2:]
-    n = int(input())
-    traducoes = []
-    for i in range(n):
-        traducoes.append(word_in_bits(input))
+    if val == 'i': # inserir tradução
+        
+        c = input()      # classe da palavra
+        n = int(input()) # número de traduções
+
+        f = open(file, 'a+')
+        endereços = []
+        
+        palavra = transformToBin(input(),0,c)
+        f.seek(0,2)
+        f.write(decimais.get(n))
+        endereços.append(f.tell())
+        f.write(palavra)
+
+        for i in range(n):
+            traducao = transformToBin(input(),0,c)
+            endereços.append(f.tell())
+            f.write(traducao)
+            # CONCLUIR
