@@ -12,23 +12,24 @@
 from ascii import *
 
 class No():
-    def __init__(self,lis,l,r,bit):
+    def __init__(self,lis,padrao,bit,pai,l,r,dir):
         self.lis = lis # caso não esteja vazio, contém endereço(s) das palavras no arquivo
-        self.bit = bit   # caso não esteja vazio, indica uma bifurcação, onde bit é a posição da palavra em que
+        self.padrao = padrao   # caso não esteja vazio, indica uma bifurcação, com o mesmo padrão
+        self.bit = bit  # bit onde termina a análise do nó
+        self.pai = pai
         self.l = None    # a análise começa
         self.r = None
+        self.dir = None
 
 class Raiz():
-    def __init__(self,raiz,tipo):
+    def __init__(self,raiz):
         self.raiz = raiz
-        self.tipo = tipo    # Tipo = 0: arvore do idioma origem(palavra literal)
-                            # Tipo = 1: arvore de traduçoes no idioma destino
 
-    def inserir_no(self,file,lista,no):         # file
+    def inserir_no(self,file,lista):         # file
         if self.raiz == None:                       # lista: endereços no arquivo
-            self.raiz = No(lista)                   # no: nó sendo analisado
+            self.raiz = No(lista,None,None,None,None,None,None)                   # no: nó sendo analisado
         else:                                       # bit: bit onde a analise deve começar
-            self.inserir_no_n(file,lista,no,2)      # começa pelo 2, pois os 2 primeiros indicam classe
+            self.inserir_no_n(file,lista,self.raiz,0)      # começa pelo 2, pois os 2 primeiros indicam classe
 
     def inserir_no_n(self,file,lista,no,bit):    
         f = open(file, 'r+')
@@ -37,80 +38,69 @@ class Raiz():
             # Para o formato de árvore para palavras de origem,                                                            
             #   armazena-se o endereço dessa palavra e todas as
             #   suas traduções 
+
+            f.seek(no.lista[0])
+            palavra_no = f.read(MAX_PALAVRA)
+
+            f.seek(lista[0])
+            palavra = f.read(MAX_PALAVRA)
             
-
-            if self.tipo == 0:  # idioma origem
-
-                f.seek(no.lista[0]) 
-                palavra_no = f.read(MAX_PALAVRA)
-
-                f.seek(lista[0])
-                palavra = f.read(MAX_PALAVRA)
-            
-                for i in range(bit,MAX_PALAVRA):    # 
-                    if palavra[i] != palavra_no[i]: # comparação da palavra com a armazenada na árvore
-                        break                       #
-
-                no.bit = i  # bit diferenciável
-
-                if palavra[i] == '0':
-                    no.l = No(lista)
-                    no.r = No(no.lis)
-                    no.lis = None
+            padrao = ''
+            for i in range(bit,MAX_PALAVRA):    # 
+                if palavra[i] != palavra_no[i]: # comparação da palavra com a armazenada na árvore
+                    break                       #
                 else:
-                    no.l = No(no.lis)
-                    no.r = No(lista)
-                    no.lis = None
-                f.close()
-                return
+                    padrao += palavra[i]
 
-            if self.tipo==1:
-                # Para o formato de árvore de traduções, apenas
-                #   uma palavra da lista é armazenada por nó.
-                # A função será chamada para cada palavra obtida na main.
+            no.padrao = palavra[bit:i-1] # padrão desse no
 
-                f.seek(no.lista)    
-                trad_no = f.read(MAX_TRADUCAO)
-
-                f.seek(lista)
-                trad_list = f.read(MAX_TRADUCAO)
-
-                for i in range(bit, MAX_TRADUCAO):
-                    if trad_list[i]!=trad_no[i]:
-                        break
-                no.bit = i
-
-                if trad_no[i] == '0':
-                    no.l = No(trad_no)
-                    no.r = No(trad_list)
-                    no.lis = None
-                else:
-                    no.l = No(trad_list)
-                    no.r = No(trad_no)
-                    no.lis = None
+            if palavra[i] == '0':
+                no.l = No(lis=lista, pai=no)
+                no.r = No(lis=no.lis, pai=no)
+                no.lis = None
+            else:
+                no.l = No(lis=no.lis, pai=no)
+                no.r = No(lis=lista, pai=no)
+                no.lis = None
             f.close()
             return
         
-        if no.bit != None:
-            if self.tipo == 0:
-                f.seek(lista[0])   
-                palavra = f.read(MAX_PALAVRA)
-                
-                if palavra[no.bit] == '0':
-                    if no.l != None:
-                        self.inserir_no_n(file,lista,no.l,bit)
-                    else:
-                        no.l = No(lista)
-                elif palavra[no.bit] == '1':
-                    if no.r != None:
-                        self.inserir_no_n(file,lista,no.r,bit)
-                    else:
-                        no.r = No(lista)
-            if self.tipo == 1:
-                f.seek(lista)
-                trad = f.read(MAX_TRADUCAO)
+        if no.padrao != None:
 
-                if trad[]
-                # CONCLUIR
+            f.seek(lista[0])   
+            palavra = f.read(MAX_PALAVRA)
+            
+            # Primeiro, compara com o padrão do nó
+            for i in range(no.bit, no.bit+len(no.padrao)):
+
+                if palavra[i] != no.padrao[i]: # se o padrão nao condiz com a palavra em algum indice i
+
+                    novo_no = No(lista, bit=no.bit, pai=no)
+                    novo_no.padrao = no.padrao[no.bit:i-1]
                     
-    #def nova_raiz(self,file,lista,no,bit):    
+                    no.padrao = no.padrao[i:no.bit+len(no.padrao)]
+                    no.bit = i
+                    if no.pai!=None:
+                        no.pai = novo_no
+                        if no.dir == 'l':
+                            no.pai.l = novo_no
+                        else:
+                            no.pai.r = novo_no
+                    
+                    if palavra[i]=='0':
+                        novo_no.l = No(lista, pai=novo_no, dir='l')
+                        no.dir = 'r'
+                        novo_no.r = no
+                    else:
+                        novo_no.r = No(lista, pai=novo_no, dir='r')
+                        no.dir = 'l'
+                        novo_no.l = no
+                    break
+
+                else: # se o padrão condiz com a palavra
+
+                    if palavra[i+1]=='0': # i+1 já vai estar fora do padrão analisado no nó
+                        self.inserir_no_n(file,lista,no.l,i+1,'l')
+                    elif palavra[i+1]=='1':
+                        self.inserir_no_n(file,lista,no.r,i+1,'r')
+                    break
