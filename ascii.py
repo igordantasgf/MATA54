@@ -6,28 +6,47 @@ for i in range(97, 123):
     ascii[alfabeto[j]]=i
     j+=1
 '''
-hex_ascii = {' ': 32, 'a': 97, 'b': 98, 'c': 99, 'd': 100, 'e': 101, 'f': 102, 'g': 103, 'h': 104, 'i': 105, 'j': 106, 'k': 107, 'l': 108, 'm': 109, 'n': 110, 'o': 111, 'p': 112, 'q': 113, 'r': 114, 's': 115, 't': 116, 'u': 117, 'v': 118, 'w': 119, 'x': 120, 'y': 121, 'z': 122}
+alfabeto={' ':'0100000','a':'1100001','b':'1100010','c':'1100011','d':'1100100','e':'1100101','f':'1100110','g':'1100111','h':'1101000','i':'1101001','j':'1101010','k':'1101011','l':'1101100','m':'1101101','n':'1101110','o':'1101111','p':'1110000','q':'1110001','r':'1110010','s':'1110011','t':'1110100','u':'1110101','v':'1110110','w':'1110111','x':'1111000','y':'1111001','z':'1111010'}
+bin_to_l={'0100000':' ','1100001':'a','1100010':'b','1100011':'c','1100100':'d','1100101':'e','1100110':'f','1100111':'g','1101000':'h','1101001':'i','1101010':'j','1101011':'k','1101100':'l','1101101':'m','1101110':'n','1101111':'o','1110000':'p','1110001':'q','1110010':'r','1110011':'s','1110100':'t','1110101':'u','1110110':'v','1110111':'w','1111000':'x','1111001':'y','1111010':'z'}
 classe = {'s':'00','a':'01','v':'10'}
 decimais = {1:'0001',2:'0010', 3:'0011',4:'0100',5:'0101',6:'0110',7:'0111',8:'1000',9:'1001',10:'1010'}
 
-def MAX_PALAVRA(): return 7*30
-def MAX_TRADUCAO(): return 7*50
+MAX_PALAVRA = 7*30
+MAX_TRADUCAO = 7*50
 
-def transformToBin(word,tipo,c): # t = tipo (origem ou traducoes)
+def transformToBin(word,tipo): # t = tipo (origem ou traducoes)
     word = ''.join(word)      # c = classe da palavra
     saida = ''                  
 
     for i in word:
-        saida+=bin(hex_ascii.get(i))[2:]
-        print(saida)
+        saida+=alfabeto.get(i)
 
-    if tipo==0 and len(saida)<MAX_PALAVRA():
-        print(len(saida))
-        print('suprindo')
-        saida+='0'*(MAX_PALAVRA()-len(saida))
-        print(len(saida))
+    if tipo==0 and len(saida)<MAX_PALAVRA:
+        saida+='0'*(MAX_PALAVRA-len(saida))
 
-    if tipo==1 and len(saida)<MAX_TRADUCAO():
-        saida+='0'*(MAX_TRADUCAO()-len(saida))
+    if tipo==1 and len(saida)<MAX_TRADUCAO:
+        saida+='0'*(MAX_TRADUCAO-len(saida))
 
+    return saida
+
+def binToWord(binario, tipo):
+    binario.split(' ')
+    palavra=''
+    saida=''
+    if tipo=='0':
+        for k in range(0,MAX_PALAVRA):
+            palavra+=binario[k]
+            if (k+1)%7==0:
+                if palavra=='0000000':
+                    break
+                saida+=bin_to_l.get(palavra)
+                palavra=''
+    else:
+        for k in range(0,MAX_TRADUCAO):
+            palavra+=binario[k]
+            if k+1%7==0:
+                if palavra=='0000000':
+                    break
+                saida+=bin_to_l.get(palavra)
+                palavra=''
     return saida

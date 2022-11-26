@@ -39,28 +39,29 @@ class Raiz():
             #   armazena-se o endereço dessa palavra e todas as
             #   suas traduções 
 
-            f.seek(no.lista[0])
+            f.seek(no.lis[0])
             palavra_no = f.read(MAX_PALAVRA)
 
             f.seek(lista[0])
             palavra = f.read(MAX_PALAVRA)
             
             padrao = ''
-            for i in range(bit,MAX_PALAVRA):    # 
+            for i in range(int(bit),MAX_PALAVRA):    # 
                 if palavra[i] != palavra_no[i]: # comparação da palavra com a armazenada na árvore
                     break                       #
                 else:
                     padrao += palavra[i]
 
+            no.bit = i
             no.padrao = palavra[bit:i-1] # padrão desse no
 
             if palavra[i] == '0':
-                no.l = No(lis=lista, pai=no)
-                no.r = No(lis=no.lis, pai=no)
+                no.l = No(lis=lista, padrao=None, bit=None, pai=no, l=None, r=None, dir='l')
+                no.r = No(lis=no.lis, padrao=None, bit=None, pai=no, l=None, r=None, dir='r')
                 no.lis = None
             else:
-                no.l = No(lis=no.lis, pai=no)
-                no.r = No(lis=lista, pai=no)
+                no.l = No(lis=no.lis, padrao=None, bit=None, pai=no, l=None, r=None, dir='l')
+                no.r = No(lis=lista, padrao=None, bit=None, pai=no, l=None, r=None, dir='r')
                 no.lis = None
             f.close()
             return
@@ -71,11 +72,12 @@ class Raiz():
             palavra = f.read(MAX_PALAVRA)
             
             # Primeiro, compara com o padrão do nó
-            for i in range(no.bit, no.bit+len(no.padrao)):
-
+            for i in range(int(no.bit), int(no.bit)+len(no.padrao)):
+                print('primeiro: ',int(no.bit))
+                print('segundo: ',len(no.padrao))
                 if palavra[i] != no.padrao[i]: # se o padrão nao condiz com a palavra em algum indice i
 
-                    novo_no = No(lista, bit=no.bit, pai=no)
+                    novo_no = No(lis=lista, padrao=None, bit=no.bit, pai=no, l=None, r=None, dir=no.dir)
                     novo_no.padrao = no.padrao[no.bit:i-1]
                     
                     no.padrao = no.padrao[i:no.bit+len(no.padrao)]
@@ -88,11 +90,11 @@ class Raiz():
                             no.pai.r = novo_no
                     
                     if palavra[i]=='0':
-                        novo_no.l = No(lista, pai=novo_no, dir='l')
+                        novo_no.l = No(lista, padrao=None, bit=None, pai=novo_no, l=None, r=None, dir='l')
                         no.dir = 'r'
                         novo_no.r = no
                     else:
-                        novo_no.r = No(lista, pai=novo_no, dir='r')
+                        novo_no.r = No(lista, padrao=None, bit=None, pai=novo_no, l=None, r=None, dir='r')
                         no.dir = 'l'
                         novo_no.l = no
                     break
@@ -104,3 +106,24 @@ class Raiz():
                     elif palavra[i+1]=='1':
                         self.inserir_no_n(file,lista,no.r,i+1,'r')
                     break
+
+    def lista_origem(self,raiz,endereços):
+        if raiz.l != None:
+            self.lista_origem(raiz.l,endereços)
+        else:
+            if raiz.r != None:
+                self.lista_origem(raiz.r,endereços)
+            else:
+                endereços.append(raiz.lis[0])
+    
+    def print_lista_origem(self,raiz,file):
+        endereços=[]
+        self.lista_origem(raiz,endereços)
+        print(endereços)
+        palavras = []
+        for i in endereços:
+            f = open(file, 'r+')
+            f.seek(i,0)
+            print(f.read(MAX_PALAVRA))
+            palavras.append(binToWord(f.read(MAX_PALAVRA),'0'))
+        print(sorted(palavras))

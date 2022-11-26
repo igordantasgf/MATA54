@@ -1,3 +1,5 @@
+from ascii import *
+from classes import *
 '''
 f = open('dic.dat','a+')
 f.seek(20)
@@ -31,7 +33,10 @@ c = No(lista3, None, None, None, None, None)
 a.r = b
 b.r = c
 c.pai = b
+
+for i in list(hex_ascii.values()):
+    print(bin(i)[2:])
 '''
-print(bin(32))
-print(bin(97))
-print(bin(122))
+bit = '3'
+print(int(bit)+2)
+
