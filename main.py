@@ -43,4 +43,10 @@ while(True):
         f.close()
     
     if val == 'l': # lista palavras no idioma origem
-        root_origem.print_lista_origem(root_origem.raiz, file)
+        root_origem.print_lista_origem(root_origem.raiz, file, input())
+
+    if val == 't':
+        root_origem.lista_traducoes(file, transformToBin(input(),'0'),root_origem.raiz,0)
+    
+    if val == 'e':
+        exit(1)
