@@ -9,7 +9,7 @@
 # Formato da lista a cada entrada: 
 #
 #--------------------------------------------------#
-from arvore_PATRICIA.ascii import *
+from ascii import *
 
 class No():
     def __init__(self,lis,padrao,bit,pai,l,r,dir):
