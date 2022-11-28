@@ -3,7 +3,7 @@ from ascii import *
 
 file = 'idioma.dat'
 root_origem = Raiz(None)  # definição da raíz da arvore PATRICIA
-f = open(file,'w+')
+f = open(file,'a+')
 f.close()
 #----- Checa itens armazenados no arquivo e faz remake da arvore -----#
 # A leitura é feita a partir do inicio do arquivo, considerando o formato
@@ -35,6 +35,10 @@ if fim!=0:
             continue
         
         root_origem.inserir_no(file, endereços) # caso não, insere na árvore
+
+        if root_origem.raiz.pai != None:
+            root_origem = root_origem.raiz.pai
+f.close()
 #---------------------------------------------------------------------#
 
 while(True):
