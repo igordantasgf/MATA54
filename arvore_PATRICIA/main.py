@@ -81,7 +81,6 @@ while(True):
         tamanho = MAX_PALAVRA
         saida = binToWord(f.read(tamanho),'0')
         print("palavra inserida no dicionario: {}".format(saida))
-        print(transformToBin(saida, 0))
 
         # Caso o nó possua pai e é raíz, transforma pai em raíz
         if root_origem.raiz.pai != None:
