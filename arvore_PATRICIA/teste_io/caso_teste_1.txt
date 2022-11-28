@@ -1,0 +1,36 @@
+i
+economy
+s
+2
+economia
+poupanca de dinheiro
+i
+equal
+s
+1
+igual
+i 
+ecosystem
+s
+3
+ecossistema
+conjunto de ecologias
+natureza
+i
+beautiful
+a
+2
+bonito
+lindo
+maravilhoso
+p
+l
+c
+t ecosystem
+a
+s
+c
+c
+beautiful
+p
+e
