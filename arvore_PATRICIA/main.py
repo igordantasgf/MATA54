@@ -1,5 +1,5 @@
-from arvore_PATRICIA.classes import *
-from arvore_PATRICIA.ascii import *
+from classes import *
+from ascii import *
 
 file = 'idioma.dat'
 root_origem = Raiz(None)  # definição da raíz da arvore PATRICIA
