@@ -3,8 +3,14 @@
 
 ---
 ### Trabalho 1: 
+#### Prof.º Flávio Assis
 * Implementação de Árvore B+ em arquivo
 ---
 ### Trabalho 2:
+#### Prof.º Flávio Assis
 * Implementação de Árvore PATRICIA
+---
+### Avaliação 1:
+#### Prof.º George Marconi
+* Estudo experimental de algoritmos Hashing
 ---
