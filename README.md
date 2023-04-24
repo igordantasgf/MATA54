@@ -13,4 +13,7 @@
 ### Avaliação 1:
 #### Prof.º George Marconi
 * Estudo experimental de algoritmos Hashing
+
+[Link do planejamento](https://github.com/igordantasgf/MATA54/blob/main/Avalia%C3%A7%C3%A3o%201/experimento_plan.md)
+
 ---
