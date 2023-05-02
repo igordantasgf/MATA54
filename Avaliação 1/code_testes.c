@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include <unistd.h>
 
 void test_to_csv(int algm);
 int *renew_table();
@@ -10,7 +9,10 @@ int *gerador();
 
 int main() {
   //___________________TESTES___________________
-  int algm = 1; // Linear Probing
+  int algm = 0; // Encadeamento explícito
+  test_to_csv(algm);
+
+  algm = 1; // Linear Probing
   test_to_csv(algm);
 
   algm = 2; // Double Hashing
@@ -21,8 +23,50 @@ int main() {
 
 void test_to_csv(int algm) {
   int contagem[TABLE_SIZE];
+  
   switch (algm) {
+
+  case 0: // encadeamento explícito 
+
+    printf("Chamada para encadeamento explícito.\n");
+    for (int i = 0; i < TABLE_SIZE; i++) { // fator de carga (alpha) n/m
+      
+      Node** table = malloc(TABLE_SIZE * sizeof(Node*));
+      for (int i = 0; i < TABLE_SIZE; i++) {
+        table[i] = NULL;
+      }
+
+      int *numeros = gerador();
+
+      for (int k = 0; k <= i; k++) {
+        inserir_encad_explicito(numeros[k], table);
+      }
+      int count = 0;
+      for (int k = 0; k <= i; k++) {
+        count = count + search_encad_explicito(numeros[k], table);
+      }
+      contagem[i] = count;
+
+      // Free memory
+      for (int i = 0; i < TABLE_SIZE; i++) {
+        Node* current_node = table[i];
+        while (current_node != NULL) {
+          Node* temp = current_node;
+          current_node = current_node->next;
+          free(temp);
+        }
+      }
+    
+    }
+    // PRINT: Número de acessos
+    for (int i = 0; i < TABLE_SIZE; i++) {
+      printf("%d\n", contagem[i]);
+    }
+    // sleep(8);
+    break;
+
   case 1: // Linear Probing
+
     printf("Chamada para linear probing.\n");
     for (int i = 0; i < TABLE_SIZE; i++) { // fator de carga (alpha) n/m
       int *tabela = renew_table();
@@ -38,7 +82,6 @@ void test_to_csv(int algm) {
       free(tabela);
       free(numeros);
     }
-
     // PRINT: Número de acessos
     for (int i = 0; i < TABLE_SIZE; i++) {
       printf("%d\n", contagem[i]);
@@ -47,6 +90,7 @@ void test_to_csv(int algm) {
     break;
 
   case 2: // Double Hashing
+
     printf("Chamada para  Double Hashing.\n");
     for (int i = 0; i < TABLE_SIZE; i++) { // fator de carga (alpha) n/m
       int *tabela = renew_table();
@@ -62,7 +106,6 @@ void test_to_csv(int algm) {
       free(tabela);
       free(numeros);
     }
-
     // PRINT: Número de acessos
     for (int i = 0; i < TABLE_SIZE; i++) {
       printf("%d\n", contagem[i]);
