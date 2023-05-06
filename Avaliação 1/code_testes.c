@@ -18,35 +18,84 @@ int main() {
   algm = 2; // Double Hashing
   test_to_csv(algm);
 
+  algm = 3; // Double Hashing
+  test_to_csv(algm);
+
   return 0;
 }
 
 void test_to_csv(int algm) {
-  int contagem[TABLE_SIZE];
-  
-  switch (algm) {
+    int contagem[TABLE_SIZE];
 
-  case 0: // encadeamento explícito 
+  for (int i = 0; i < TABLE_SIZE; i++){
 
-    printf("Chamada para encadeamento explícito.\n");
-    for (int i = 0; i < TABLE_SIZE; i++) { // fator de carga (alpha) n/m
-      
-      Node** table = malloc(TABLE_SIZE * sizeof(Node*));
-      for (int i = 0; i < TABLE_SIZE; i++) {
-        table[i] = NULL;
-      }
+    Node** table = malloc(TABLE_SIZE * sizeof(Node*));
+    for (int i = 0; i < TABLE_SIZE; i++) {
+      table[i] = NULL;
+    }
+    int *tabela = renew_table();
+    int *numeros = gerador();
 
-      int *numeros = gerador();
+  // -------- // -------- Inserção -------- // --------  
+    switch(algm){
+      case 0:
+        for (int k = 0; k <= i; k++) {
+          inserir_encad_explicito(numeros[k], table);
+        }
+        break;
 
-      for (int k = 0; k <= i; k++) {
-        inserir_encad_explicito(numeros[k], table);
-      }
+      case 1: // sondagem linear
+        for (int k = 0; k <= i; k++) {
+          inserir_sondagem_linear(numeros[k], tabela);
+        }
+        break;
+
+      case 2: // Double hashing
+        for (int k = 0; k <= i; k++) {
+          inserir_double_hash(numeros[k], tabela);
+        }
+        break;
+
+      case 3: // sondagem quadratica
+        for (int k = 0; k <= i; k++) {
+          inserir_sondagem_quad(numeros[k], tabela);
+        }
+        break;
+    }
+    // -------- // -------- // -------- // --------  
+
       int count = 0;
-      for (int k = 0; k <= i; k++) {
-        count = count + search_encad_explicito(numeros[k], table);
-      }
-      contagem[i] = count;
 
+    // -------- // -------- Busca -------- // --------  
+    switch(algm){
+      case 0:
+        for (int k = 0; k <= i; k++) {
+          count = count + search_encad_explicito(numeros[k], table);
+        }
+        break;  
+      case 1:
+        for (int k = 0; k <= i; k++) {
+          count = count + search_sondagem_linear(numeros[k], tabela);
+        }
+        break;
+      case 2:
+        for (int k = 0; k <= i; k++) {
+          count = count + search_double_hash(numeros[k], tabela);
+        }
+        break;   
+      case 3:
+        for (int k = 0; k <= i; k++) {
+          count = count + search_sondagem_quad(numeros[k], tabela);
+        }
+        break;
+      }
+    // -------- // -------- // -------- // --------  
+
+      contagem[i] = count;
+      free(tabela);
+      free(numeros);
+
+    if(algm==0){
       // Free memory
       for (int i = 0; i < TABLE_SIZE; i++) {
         Node* current_node = table[i];
@@ -56,66 +105,15 @@ void test_to_csv(int algm) {
           free(temp);
         }
       }
-    
     }
-    // PRINT: Número de acessos
-    for (int i = 0; i < TABLE_SIZE; i++) {
-      printf("%d\n", contagem[i]);
-    }
-    // sleep(8);
-    break;
+  }
 
-  case 1: // Linear Probing
-
-    printf("Chamada para linear probing.\n");
-    for (int i = 0; i < TABLE_SIZE; i++) { // fator de carga (alpha) n/m
-      int *tabela = renew_table();
-      int *numeros = gerador();
-      for (int k = 0; k <= i; k++) {
-        inserir_sondagem_linear(numeros[k], tabela);
-      }
-      int count = 0;
-      for (int k = 0; k <= i; k++) {
-        count = count + search_sondagem_linear(numeros[k], tabela);
-      }
-      contagem[i] = count;
-      free(tabela);
-      free(numeros);
-    }
-    // PRINT: Número de acessos
-    for (int i = 0; i < TABLE_SIZE; i++) {
-      printf("%d\n", contagem[i]);
-    }
-    // sleep(8);
-    break;
-
-  case 2: // Double Hashing
-
-    printf("Chamada para  Double Hashing.\n");
-    for (int i = 0; i < TABLE_SIZE; i++) { // fator de carga (alpha) n/m
-      int *tabela = renew_table();
-      int *numeros = gerador();
-      for (int k = 0; k <= i; k++) {
-        inserir_double_hash(numeros[k], tabela);
-      }
-      int count = 0;
-      for (int k = 0; k <= i; k++) {
-        count = count + search_double_hash(numeros[k], tabela);
-      }
-      contagem[i] = count;
-      free(tabela);
-      free(numeros);
-    }
-    // PRINT: Número de acessos
-    for (int i = 0; i < TABLE_SIZE; i++) {
-      printf("%d\n", contagem[i]);
-    }
-    // sleep(8);
-    break;
+  for (int i = 0; i < TABLE_SIZE; i++) {
+    printf("%d\n", contagem[i]);
   }
 }
 
-int *renew_table() {
+int *renew_table(){
   int *tabela = malloc(TABLE_SIZE * sizeof(int));
   for (int i = 0; i < TABLE_SIZE; i++) {
     tabela[i] = -1;
