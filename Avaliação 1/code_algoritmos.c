@@ -11,18 +11,28 @@ typedef struct Node {
 } Node;
 
 // Função hashing (pos = x mod m)
-int hash1(int key) {
+int hash1(int key, int c) {
+  if(c==-1){
     return key % TABLE_SIZE;
+  }else{
+    return key % c;
+  }
+    
   // fonte: Cormen et al.
 }
 
 int find_gcd(int, int);
 
-int hash2(int key) {
-    int step = TABLE_SIZE - (key % TABLE_SIZE); // PRIME is a large prime number
+int hash2(int key, int c) {
+    if(c==-1){
+      c = TABLE_SIZE;
+    }else{
+      c = c;
+    }
+    int step = c - (key % c); // PRIME is a large prime number
     int gcd = 0;
     while (gcd != 1) {
-      gcd = find_gcd(TABLE_SIZE, step);
+      gcd = find_gcd(c, step);
       step++;
     }
     return step - 1;
@@ -37,8 +47,9 @@ int find_gcd(int a, int b) {
     }
 }
 
-Node* inserir_encad_explicito(int key, Node** table) {
-    int index = hash1(key);
+Node* inserir_encad_explicito(int key, Node** table, int c) {
+    int index = hash1(key, c);
+    
     Node* new_node = malloc(sizeof(Node));
     new_node->key = key;
     new_node->next = NULL;
@@ -54,8 +65,8 @@ Node* inserir_encad_explicito(int key, Node** table) {
     }
 }
 
-int search_encad_explicito(int key, Node** table) {
-    int index = hash1(key);
+int search_encad_explicito(int key, Node** table, int c) {
+    int index = hash1(key, c);
     Node* current_node = table[index];
     int count = 1;
 
@@ -69,51 +80,72 @@ int search_encad_explicito(int key, Node** table) {
     return -1;
 }
 
-void inserir_sondagem_linear(int key, int *tabela) {
-    int index = hash1(key);
+void inserir_sondagem_linear(int key, int *tabela, int c) {
+    int index = hash1(key, c);
+    if(c==-1){
+      c = TABLE_SIZE;
+    }else{
+      c=c;
+    }
 
     while (tabela[index] != -1) {
-      index = (index + 1) % TABLE_SIZE;
+      index = (index + 1) % c;
     }
 
     tabela[index] = key;
 }
 
-int search_sondagem_linear(int key, int *tabela) {
-    int index = hash1(key);
+int search_sondagem_linear(int key, int *tabela, int c) {
+    int index = hash1(key, c);
     int count = 1;
+    if(c==-1){
+      c = TABLE_SIZE;
+    }else{
+      c=c;
+    }
 
     while (tabela[index] != -1) {
       if (tabela[index] == key) {
         return count;
       }
-      index = (index + 1) % TABLE_SIZE;
+      index = (index + 1) % c;
       count++;
     }
 
     printf("Key not found.\n");
     return -1;
 }
-void inserir_double_hash(int key, int *tabela) {
-    int index = hash1(key);
-    int step = hash2(key);
+void inserir_double_hash(int key, int *tabela, int c) {
+    int index = hash1(key, c);
+    int step = hash2(key, c);
+    if(c==-1){
+      c = TABLE_SIZE;
+    }else{
+      c=c;
+    }
 
     while (tabela[index] != -1) {
-      index = (index + step) % TABLE_SIZE;
+      index = (index + step) % c;
     }
 
     tabela[index] = key;
 }
 
-int search_double_hash(int key, int *tabela) {
-    int index = hash1(key);
-    int step = hash2(key);
+int search_double_hash(int key, int *tabela, int c) {
+    int index = hash1(key, c);
+    int step = hash2(key, c);
     int count = 1;
+    if(c==-1){
+      c = TABLE_SIZE;
+    }else{
+      c=c;
+    }
+
     while (tabela[index] != -1) {
       if (tabela[index] == key) {
         return count;
       }
-      index = (index + step) % TABLE_SIZE;
+      index = (index + step) % c;
       count++;
     }
 
@@ -121,26 +153,36 @@ int search_double_hash(int key, int *tabela) {
     return -1;
 }
 
-void inserir_sondagem_quad(int key, int* table) {
-    int index = hash1(key);
-    int step = hash2(key);
+void inserir_sondagem_quad(int key, int* table, int c) {
+    int index = hash1(key, c);
+    int step = hash2(key, c);
     int i = 1;
+    if(c==-1){
+      c = TABLE_SIZE;
+    }else{
+      c=c;
+    }
     
     while (table[index] != -1) {
-        index = (index + i*i*step) % TABLE_SIZE;
+        index = (index + i*i*step) % c;
         i++;
     }
     
     table[index] = key;
 }
 
-int search_sondagem_quad(int key, int* table) {
-    int index = hash1(key);
-    int step = hash2(key);
+int search_sondagem_quad(int key, int* table, int c) {
+    int index = hash1(key, c);
+    int step = hash2(key, c);
     int i = 1;
+    if(c==-1){
+      c = TABLE_SIZE;
+    }else{
+      c=c;
+    }
     
     while (table[index] != -1 && table[index] != key) {
-        index = (index + i*i*step) % TABLE_SIZE;
+        index = (index + i*i*step) % c;
         i++;
     }
     
