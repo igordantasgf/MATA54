@@ -3,14 +3,13 @@
 #include <stdlib.h>
 #include <time.h>
 
-void test_to_csv(int algm);
+void test_to_csv(int algm, FILE *f);
 int *renew_table();
 int *gerador();
 
 int main() {
 
   int i;
-  int algm = 0;
   printf("0 - Gerar testes a partir de arquivos importados\n1 - Gerar testes para o relatório geral\nEntrada: ");
   fflush(stdout);
   scanf("%d", &i);
@@ -97,25 +96,34 @@ int main() {
   
   if(i==1){
     //___________________TESTES - Relatório ___________________
+    FILE *f;
+    f = fopen("dados.txt", "w");
+    fprintf(f, "%d\n", TABLE_SIZE);
+    fclose(f);
+
      // Encadeamento explícito
-    test_to_csv(algm);
+    int algm = 0;
+    test_to_csv(algm, f);
 
     algm = 1; // Linear Probing
-    test_to_csv(algm);
+    test_to_csv(algm, f);
 
     algm = 2; // Double Hashing
-    test_to_csv(algm);
+    test_to_csv(algm, f);
 
     algm = 3; // Quadratic Hashing
-    test_to_csv(algm);
+    test_to_csv(algm, f);
+
     //__________________________________________________________
   }
 
   return 0;
 }
 
-void test_to_csv(int algm) {
-    int contagem[TABLE_SIZE];
+void test_to_csv(int algm, FILE *f) {
+  f = fopen("dados.txt", "a");
+  fseek(f, 0, SEEK_END);
+  int contagem[TABLE_SIZE];
 
   for (int i = 0; i < TABLE_SIZE; i++){
 
@@ -198,9 +206,12 @@ void test_to_csv(int algm) {
     }
   }
 
+  
   for (int i = 0; i < TABLE_SIZE; i++) {
     printf("%d\n", contagem[i]);
+    fprintf(f, "%d\n", contagem[i]);
   }
+  fclose(f);
 }
 
 int *renew_table(int size){
