@@ -153,9 +153,8 @@ int search_double_hash(int key, int *tabela, int c) {
     return -1;
 }
 
-void inserir_sondagem_quad(int key, int* table, int c) {
+void inserir_sondagem_quad(int key, int* tabela, int c) {
     int index = hash1(key, c);
-    int step = hash2(key, c);
     int i = 1;
     if(c==-1){
       c = TABLE_SIZE;
@@ -163,32 +162,30 @@ void inserir_sondagem_quad(int key, int* table, int c) {
       c=c;
     }
     
-    while (table[index] != -1) {
-        index = (index + i*i*step) % c;
-        i++;
+    while (tabela[index] != -1) {
+      index = (index + i*i) % c;
+      i++;
     }
     
-    table[index] = key;
+    tabela[index] = key;
 }
 
-int search_sondagem_quad(int key, int* table, int c) {
+int search_sondagem_quad(int key, int* tabela, int c) {
     int index = hash1(key, c);
-    int step = hash2(key, c);
     int i = 1;
+    int count = 1;
     if(c==-1){
       c = TABLE_SIZE;
     }else{
       c=c;
     }
     
-    while (table[index] != -1 && table[index] != key) {
-        index = (index + i*i*step) % c;
-        i++;
-    }
-    
-    if (table[index] == key) {
-        return index;
-    } else {
-        return -1;
+    while (tabela[index] != -1) {
+      if (tabela[index] == key) {
+        return count;
+      }
+      index = (index + i*i) % c;
+      i++;
+      count++;
     }
 }

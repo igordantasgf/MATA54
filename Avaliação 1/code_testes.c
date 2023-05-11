@@ -71,16 +71,16 @@ int main() {
       }
       switch(p){
         case 0:
-          printf("\nMédia de acessos para Encadeamento Explícito: %.2f", (float)k/count);
+          printf("\nMedia de acessos para Encadeamento Explicito: %.2f", (float)k/count);
           break;
         case 1:
-          printf("\nMédia de acessos para Sondagem Linear: %.2f", (float)k/count);
+          printf("\nMedia de acessos para Sondagem Linear: %.2f", (float)k/count);
           break;
         case 2:
-          printf("\nMédia de acessos para Double Hashing: %.2f", (float)k/count);
+          printf("\nMedia de acessos para Double Hashing: %.2f", (float)k/count);
           break;
         case 3:
-          printf("\nMédia de acessos para Sondagem Quadrática: %.2f", (float)k/count);
+          printf("\nMedia de acessos para Sondagem Quadratica: %.2f", (float)k/count);
           break;
       }
       free(tabela);
