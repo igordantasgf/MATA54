@@ -15,7 +15,7 @@ Seguem abaixo os algoritmos definidos pelo professor (1-3) e uma abordagem de ha
 1. Encadeamento explcito com o uso de ponteiros usando alocação estática de memória
 2. Endereçamento aberto com sondagem linear
 3. Endereçamento aberto com duplo hashing
-4. Hashing Perfeito em dois níveis **(temporário)**
+4. Endereçamento aberto com hashing quadrático
 
 ---
 
