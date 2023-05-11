@@ -16,10 +16,9 @@ int main() {
   scanf("%d", &i);
   int x;
 
-  if(i==0){
-    // Padrão: m - n - alpha
-    printf("\nRodando Testes pré-definidos...\nDefina o tamanho m:\n");
-    
+  if(i==0){ // Testes manuais
+    // Padrão: m - n
+    printf("\nRodando Testes...\nDefina o tamanho m:\n");
     scanf("%d", &x);
     const int tamanho = x;
     printf("\nDefiniu o tamanho: %d\n", tamanho);
@@ -34,68 +33,66 @@ int main() {
       count++;
     }
 
-    //encadeamento explícito
-    Node** table = malloc(tamanho * sizeof(Node*));
-    for (int i = 0; i < tamanho; i++) {
-      table[i] = NULL;
-    }
-
-    for(int i=0; i<count; i++){
-      inserir_encad_explicito(lista[i], table, tamanho);
-    }
-    int k=0;
-    for(int i=0; i<count; i++){
-      k = k + search_encad_explicito(lista[i], table, tamanho);
-    }
-    for (int i = 0; i < tamanho; i++) {
+    for(int p=0; p<4; p++){
+      int k=0;
+      Node** table = malloc(tamanho * sizeof(Node*));
+      int *tabela = renew_table(tamanho);
+      for(int i=0; i<count; i++){
+        switch(p){
+          case 0:
+            inserir_encad_explicito(lista[i], table, tamanho);
+            break;
+          case 1:
+            inserir_sondagem_linear(lista[i], tabela, tamanho);
+            break;
+          case 2:
+            inserir_double_hash(lista[i], tabela, tamanho);
+            break;
+          case 3:
+            inserir_sondagem_quad(lista[i], tabela, tamanho);
+            break;
+        }
+      }
+      for(int i=0; i<count; i++){
+        switch (p){
+          case 0:
+            k = k + search_encad_explicito(lista[i], table, tamanho);
+            break;
+          case 1:
+            k = k + search_sondagem_linear(lista[i], tabela, tamanho);
+            break;
+          case 2:
+            k = k + search_double_hash(lista[i], tabela, tamanho);
+            break;
+          case 3:
+            k = k + search_sondagem_quad(lista[i], tabela, tamanho);
+            break;
+        }
+      }
+      switch(p){
+        case 0:
+          printf("\nMédia de acessos para Encadeamento Explícito: %.2f", (float)k/count);
+          break;
+        case 1:
+          printf("\nMédia de acessos para Sondagem Linear: %.2f", (float)k/count);
+          break;
+        case 2:
+          printf("\nMédia de acessos para Double Hashing: %.2f", (float)k/count);
+          break;
+        case 3:
+          printf("\nMédia de acessos para Sondagem Quadrática: %.2f", (float)k/count);
+          break;
+      }
+      free(tabela);
+      /*for(int i = 0; i < tamanho; i++){
         Node* current_node = table[i];
         while (current_node != NULL) {
           Node* temp = current_node;
           current_node = current_node->next;
           free(temp);
         }
-      }
-    printf("\nMédia de acessos para Encadeamento Explícito: %.2f", (float)k/count);
-
-    //Linear Probing
-    int *tabela = renew_table(tamanho);
-    printf("\n\nLendo números para colocar na lista");
-    for(int i=0; i<count; i++){
-      inserir_sondagem_linear(lista[i], tabela, tamanho);
+      }*/
     }
-    k=0;
-    for(int i=0; i<count; i++){
-      k = k + search_sondagem_linear(lista[i], tabela, tamanho);
-    }
-    free(tabela);
-    printf("\nMédia de acessos para Sondagem Linear: %.2f", (float)k/count);
-
-    //Double Hashing
-    tabela = renew_table(tamanho);
-    printf("\n\nLendo números para colocar na lista");
-    for(int i=0; i<count; i++){
-      inserir_double_hash(lista[i], tabela, tamanho);
-    }
-    k=0;
-    for(int i=0; i<count; i++){
-      k = k + search_double_hash(lista[i], tabela, tamanho);
-    }
-    free(tabela);
-    printf("\nMédia de acessos para Double Hashing: %.2f", (float)k/count);
-
-    //Quadratic Probing
-    tabela = renew_table(tamanho);
-    printf("\n\nLendo números para colocar na lista");
-    for(int i=0; i<count; i++){
-      inserir_sondagem_quad(lista[i], tabela, tamanho);
-    }
-    k=0;
-    for(int i=0; i<count; i++){
-      k = k + search_sondagem_quad(lista[i], tabela, tamanho);
-    }
-    free(tabela);
-    printf("\nMédia de acessos para Quadratic Hashing: %.2f", (float)k/count);
-
   }
   
   if(i==1){
