@@ -3,7 +3,7 @@
 #include <time.h>
 
 // Tamanho padrão da tabela de dados (m)
-#define TABLE_SIZE 1001
+#define TABLE_SIZE 997
 
 typedef struct Node {
     int key;
@@ -29,13 +29,7 @@ int hash2(int key, int c) {
     }else{
       c = c;
     }
-    int step = c - (key % c); // PRIME is a large prime number
-    int gcd = 0;
-    while (gcd != 1) {
-      gcd = find_gcd(c, step);
-      step++;
-    }
-    return step - 1;
+    return 1+(key % (c-1));
 }
 
 //https://dev.to/vosse/open-addressing-13g9
