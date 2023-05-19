@@ -44,11 +44,40 @@ for j in numeros_part:
 print('fim')
 
 #Plotting
-fig, axs = plt.subplots(2, 2, figsize=(5,5))
-axs[0][0].plot(df['encad_explicito'])
-axs[0][1].plot(df['hash_linear'])
-axs[1][0].plot(df['hash_duplo'])
-axs[1][1].plot(df['hash_quadratico'])
+valores_x = np.linspace(0,1,tam)
+
+fig, axs = plt.subplots(2, 2, figsize=(10,10))
+axs[0][0].plot(valores_x,df['encad_explicito'])
+axs[0][0].set_title("Encadeamento Explícito")
+axs[0][0].set_xlabel("Fator de carga")
+axs[0][0].set_ylabel("Média de acessos")
+#axs[0][0].set_ylim((0,20))
+
+axs[0][1].plot(valores_x,df['hash_linear'])
+axs[0][1].set_title("Sondagem Linear")
+axs[0][1].set_xlabel("Fator de carga")
+axs[0][1].set_ylabel("Média de acessos")
+#axs[0][1].set_ylim((0,20))
+
+axs[1][0].plot(valores_x,df['hash_duplo'])
+axs[1][0].set_title("Hashing Duplo")
+axs[1][0].set_xlabel("Fator de carga")
+axs[1][0].set_ylabel("Média de acessos")
+#axs[1][0].set_ylim((0,20))
+
+axs[1][1].plot(valores_x,df['hash_quadratico'])
+axs[1][1].set_title("Sondagem Quadrática")
+axs[1][1].set_xlabel("Fator de carga")
+axs[1][1].set_ylabel("Média de acessos")
+#axs[1][1].set_ylim((0,20))
+
+fig, ax2 = plt.subplots(1, 1, figsize=(12,12))
+ax2.plot(valores_x,df['encad_explicito'], c='r')
+ax2.plot(valores_x,df['hash_linear'], c='g')
+ax2.plot(valores_x,df['hash_duplo'], c='b')
+ax2.plot(valores_x,df['hash_quadratico'], c='purple')
+ax2.legend(['Encadeamento Explícito',"Sondagem Linear","Hashing Duplo","Sondagem Quadrática"], loc='center')
+plt.show()
 
 fig, ax = plt.subplots(1, 1, figsize=(15,5))
 indices1 = list(range(0,tam))
@@ -62,8 +91,6 @@ ax1.bar(indices1, dist)
 ax1.set_title("Distribuição de restos da divisão pelo TABEL_SIZE", fontsize=14)
 ax1.set_xlabel("Resto da divisão pelo TABLE_SIZE", fontsize=12)
 ax1.set_ylabel("Número de ocorrências do valor 'x'", fontsize=12)
-
-plt.show()
 
 f.close()
 g.close()
