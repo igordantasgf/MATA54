@@ -9,6 +9,7 @@ import numpy as np
 import os
 from numpy import log as ln
 
+#path = caminho onde estão armazenados arquivos gerados em main_testes.c
 path = "C:\\Users\igora\Documents\Material Faculdade\Estruturas de Dados e Algoritmos 2\MATA54\Avaliaçao 1\dados"
 os.chdir(path)
 
