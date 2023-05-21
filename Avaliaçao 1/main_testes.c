@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-void test_to_csv(int algm, FILE *f, FILE *g);
+void test_to_csv(int algm, FILE *f, FILE *g, FILE *h);
 int *renew_table();
 int *gerador();
 
@@ -98,24 +98,27 @@ int main() {
     //___________________TESTES - Relatório ___________________
     FILE *f;
     FILE *g;
+    FILE *h;
     f = fopen("dados.txt", "w");
-    fprintf(f, "%d\n", TABLE_SIZE);
+    fprintf(f, "%d\n", TABLE_SIZE-36);
     fclose(f);
     g = fopen("numeros_inseridos.txt","w");
     fclose(g);
+    h = fopen("encad_size_4129_m.txt","w");
+    fclose(h);
 
      // Encadeamento explícito
     int algm = 0;
-    test_to_csv(algm, f, g);
+    test_to_csv(algm, f, g, h);
 
     algm = 1; // Linear Probing
-    test_to_csv(algm, f, g);
+    test_to_csv(algm, f, g, h);
 
     algm = 2; // Double Hashing
-    test_to_csv(algm, f, g);
+    test_to_csv(algm, f, g, h);
 
     algm = 3; // Quadratic Hashing
-    test_to_csv(algm, f, g);
+    test_to_csv(algm, f, g, h);
 
     //__________________________________________________________
   }
@@ -123,14 +126,16 @@ int main() {
   return 0;
 }
 
-void test_to_csv(int algm, FILE *f, FILE *g) {
+void test_to_csv(int algm, FILE *f, FILE *g, FILE *h) {
   f = fopen("dados.txt", "a");
   g = fopen("numeros_inseridos.txt","a");
+  h = fopen("encad_size_2027_m.txt","a");
   fseek(f, 0, SEEK_END);
   fseek(g, 0, SEEK_END);
-  int contagem[TABLE_SIZE];
+  fseek(h, 0, SEEK_END);
+  int contagem[TABLE_SIZE-36];
 
-  for (int i = 0; i < TABLE_SIZE; i++){
+  for (int i = 0; i < TABLE_SIZE-36; i++){
 
     Node** table = malloc(TABLE_SIZE * sizeof(Node*));
     for (int i = 0; i < TABLE_SIZE; i++) {
@@ -216,9 +221,12 @@ void test_to_csv(int algm, FILE *f, FILE *g) {
   }
 
   
-  for (int i = 0; i < TABLE_SIZE; i++) {
+  for (int i = 0; i < TABLE_SIZE-36; i++) {
     printf("%d\n", contagem[i]);
     fprintf(f, "%d\n", contagem[i]);
+    if(algm==0){
+      fprintf(h, "%d\n", contagem[i]);
+    }
   }
   fclose(f);
   fclose(g);

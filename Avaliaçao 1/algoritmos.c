@@ -4,7 +4,7 @@
 
 // Tamanho padrão da tabela de dados (m)
 //#define TABLE_SIZE 997
-#define TABLE_SIZE 2339
+#define TABLE_SIZE 1033
 
 typedef struct Node {
     int key;
