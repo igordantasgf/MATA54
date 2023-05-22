@@ -25,3 +25,7 @@ A priori, serão implementados na linguagem C (MinGW GCC-6.3.0-1) os algoritmos 
 Esses números serão armazenados em um arquivo .csv para serem importados através da linguagem Python (3.8.5), em que a geração de gráficos e análise dos dados será mais eficiente e sucinta. Serão obtidos séries de médias e desvios padrão para cada algoritmo, histogramas e gráficos de dispersão.
 
 ---
+
+### [Relatório final do experimento](https://github.com/igordantasgf/MATA54/blob/main/Avalia%C3%A7ao%201/Relat%C3%B3rio%20-%20Avalia%C3%A7%C3%A3o%201%20EDA%202023.1.pdf)
+
+
