@@ -5,6 +5,10 @@
 ###### Universidade Federal da Bahia
 ---
 
+### [Relatório final do experimento](https://github.com/igordantasgf/MATA54/blob/main/Avalia%C3%A7ao%201/Relat%C3%B3rio%20-%20Avalia%C3%A7%C3%A3o%201%20EDA%202023.1.pdf)
+
+---
+
 ### Objetivo:
 Avaliar o desempenho de algoritmos de hashing apresentados em sala de aula, na matéria Estrutura de Dados e Algoritmos 2, ministrada pelo Prof.º George Marconi, com o intuito de avaliar a complexidade e desempenho dos algoritmos a serem apresentados, através da computação de medidas estatísticas e visualização de gráficos.
 
@@ -26,6 +30,6 @@ Esses números serão armazenados em um arquivo .csv para serem importados atrav
 
 ---
 
-### [Relatório final do experimento](https://github.com/igordantasgf/MATA54/blob/main/Avalia%C3%A7ao%201/Relat%C3%B3rio%20-%20Avalia%C3%A7%C3%A3o%201%20EDA%202023.1.pdf)
+
 
 
