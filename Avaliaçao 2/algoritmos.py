@@ -31,27 +31,51 @@ def compressor_lzw(obj):
   return dicionario
 
 
-# O descompressor exite um "first_dict", dicionario previamente
+
+
+
+# O descompressor exite um dicionario previamente
 # feito com todos os caracteres que estarão no obj a ser descompressado
-def descompressor_lzw(obj, first_dict):
-  print("\nPalavra a ser compressada: ",obj)
+def descompressor_lzw(obj, dicionario):
+  print("\nPalavra a ser descompressada: ",obj)
 
   # Criação de alfabeto inicial e dicionário
-  dicionario = first_dict
   var=len(dicionario)
   cont = 0
   saida = ''
+  feed = ''
 
   # Loop, incrementando incondicionalmente os valores obj do dicionario ao feed
   # Analisa o feed, do inicio até quando encontrar um prefixo que não está no dicionario
   # Corta o feed do inicio até o penultimo item do prefixo adicionado ao dicionario
   while(True):
+    if cont==len(obj):
+      break
+
     if obj[cont] in dicionario.values():
-      feed += [i for i in dicionario if i.values()==obj[cont]]
+      print('i = ',[i for i in dicionario if dicionario[i]==obj[cont]][0])
+      saida += [i for i in dicionario if dicionario[i]==obj[cont]][0]
+      feed += [i for i in dicionario if dicionario[i]==obj[cont]][0]
+      cont+=1
+      print('Saida:',saida)
 
-    tam = 1
-    #for n in range(tam,len(feed)):
-    #terminar...
-    
-
-  return 
+    while(True):
+      mudou = False
+      if len(feed)>1 and feed not in dicionario:
+        print("Condição 1")
+        for i in range(2,len(feed)+1):
+          if feed[0:i] not in dicionario:
+            print("Condição 2\nFeed atual:",feed)
+            dicionario[feed[0:i]] = str(var)
+            var+=1
+            feed = feed[i-1:]
+            mudou = True
+            print("Novo feed:",feed)
+            break
+      if mudou==True:
+        continue
+      else:
+        break
+  
+  print("Resultado da descompressão:",saida)
+  print("Dicionário da descompressão: \n", dicionario)

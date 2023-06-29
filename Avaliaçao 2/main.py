@@ -6,7 +6,7 @@ local_dict = None
 while(True):
   local_dict = local_dict
 
-  i = input("Digite o comando: ").split()
+  i = input("\nDigite o comando:  ").split()
 
   # Comando para formar dicionario inicial, usado no descompressor (referenciado em algoritmos)
   # exemplo: make_dict aabaaacaade
