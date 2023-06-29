@@ -5,7 +5,7 @@ from algoritmos import *
 local_dict = None
 while(True):
   local_dict = local_dict
-
+  print('\n---------\n')
   i = input("\nDigite o comando:  ").split()
 
   # Comando para formar dicionario inicial, usado no descompressor (referenciado em algoritmos)
@@ -26,9 +26,15 @@ while(True):
   # exemplo: decompress 001502534
   # return: objeto descomprimido
   if i[0] == 'decompress':
-    descompressor_lzw(i[1], local_dict)
+    try:
+      descompressor_lzw(i[1], local_dict)
+    except TypeError:
+      print("Primeiro, gere um dicionario inicial com os caracteres usados através do comando make_dict")
 
   # Comando para encerrar a aplicação
   # end
   if i[0] == 'end':
     break
+
+#adebcdebdcabecdbabebea
+#adebcdebdcabecdbacdbea

@@ -53,24 +53,24 @@ def descompressor_lzw(obj, dicionario):
       break
 
     if obj[cont] in dicionario.values():
-      print('i = ',[i for i in dicionario if dicionario[i]==obj[cont]][0])
+      #print('i = ',[i for i in dicionario if dicionario[i]==obj[cont]][0])
       saida += [i for i in dicionario if dicionario[i]==obj[cont]][0]
       feed += [i for i in dicionario if dicionario[i]==obj[cont]][0]
       cont+=1
-      print('Saida:',saida)
+      #print('Saida:',saida)
 
     while(True):
       mudou = False
       if len(feed)>1 and feed not in dicionario:
-        print("Condição 1")
+        #print("Condição 1")
         for i in range(2,len(feed)+1):
           if feed[0:i] not in dicionario:
-            print("Condição 2\nFeed atual:",feed)
+            #print("Condição 2\nFeed atual:",feed)
             dicionario[feed[0:i]] = str(var)
             var+=1
             feed = feed[i-1:]
             mudou = True
-            print("Novo feed:",feed)
+            #print("Novo feed:",feed)
             break
       if mudou==True:
         continue
