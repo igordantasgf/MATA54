@@ -1,5 +1,5 @@
 def dicionario_first(obj):
-  var=0
+  var=1
   alfabeto = sorted([i for i in set(''.join(obj))])
   dicionario = {}
   for i in alfabeto:

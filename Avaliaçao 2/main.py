@@ -23,13 +23,13 @@ while(True):
 
   # Comando para descomprimir um objeto, a partir de um dicionario
   #   inicial previamente feito
-  # exemplo: decompress 001502534
+  # exemplo: decompress 0 0 1 5 0 2 5 3 4
   # return: objeto descomprimido
   if i[0] == 'decompress':
-    try:
-      descompressor_lzw(i[1], local_dict)
-    except TypeError:
-      print("Primeiro, gere um dicionario inicial com os caracteres usados através do comando make_dict")
+    #try:
+    descompressor_lzw(i[1], local_dict)
+    #except TypeError:
+      #print("Primeiro, gere um dicionario inicial com os caracteres usados através do comando make_dict")
 
   # Comando para encerrar a aplicação
   # end
