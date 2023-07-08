@@ -10,7 +10,7 @@ while(True):
 
   # Comando para formar dicionario inicial, usado no descompressor (referenciado em algoritmos)
   # exemplo: make_dict aabaaacaade
-  # return: {'a': '0', 'b': '1', 'c': '2', 'd': '3', 'e': '4'}
+  # return: {'a': '1', 'b': '2', 'c': '3', 'd': '4', 'e': '5'}
   if i[0] == 'make_dict':
     local_dict = dicionario_first(i[1])
     print(local_dict)
@@ -19,15 +19,15 @@ while(True):
   # exemplo: compress aabaaacaade
   # return: objeto comprimido
   if i[0] == 'compress':
-    compressor_lzw(i[1])
+    compressor_lzw(i[1:])
 
   # Comando para descomprimir um objeto, a partir de um dicionario
   #   inicial previamente feito
-  # exemplo: decompress 0 0 1 5 0 2 5 3 4
+  # exemplo: decompress 1 1 2 6 1 3 6 4 5
   # return: objeto descomprimido
   if i[0] == 'decompress':
     #try:
-    descompressor_lzw(i[1], local_dict)
+    descompressor_lzw(i[1:], local_dict)
     #except TypeError:
       #print("Primeiro, gere um dicionario inicial com os caracteres usados através do comando make_dict")
 
