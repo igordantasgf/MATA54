@@ -1,5 +1,6 @@
 from dict import dicionario_first
 from algoritmos import *
+from conversor import *
 
 
 local_dict = None
@@ -19,6 +20,26 @@ while(True):
   # exemplo: compress aabaaacaade
   # return: objeto comprimido
   if i[0] == 'compress':
+
+    # Para comprimir arquivos, citar o tipo
+    # Ex: compress gif
+    # colocar path do arquivo abaixo 
+    if i[1] == 'gif':
+      fig = 'nyan-cat'
+      caminho_gif = f'C:/Users/igora/Documents/Material Faculdade/Estruturas de Dados e Algoritmos 2/MATA54/Avaliaçao 2/gif_files/{fig}.gif'
+      compressor_lzw(''.join(convert_gif(caminho_gif)))
+      continue
+
+    if i[1] == 'mp3':
+      caminho_mp3 = 'C:/Users/igora/Documents/Material Faculdade/Estruturas de Dados e Algoritmos 2/MATA54/Avaliaçao 2/mp3_files/oh-my-god-meme.mp3'
+      compressor_lzw(convert_mp3(caminho_mp3))
+      continue
+
+    if i[1] == 'tiff':
+      caminho_tiff = 'C:/Users/igora/Documents/Material Faculdade/Estruturas de Dados e Algoritmos 2/MATA54/Avaliaçao 2/tiff_files/2918043.tiff'
+      compressor_lzw(convert_tiff(caminho_tiff))
+      continue
+
     compressor_lzw(i[1:])
 
   # Comando para descomprimir um objeto, a partir de um dicionario

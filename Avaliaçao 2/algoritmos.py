@@ -1,8 +1,12 @@
 from dict import dicionario_first
+import math
 
 def compressor_lzw(obj):
-  obj = obj[0]
-  print("\nPalavra a ser compressada: ",obj)
+  if type(obj) == list:
+    obj = obj[0]
+  else:
+    pass
+  #print("\nPalavra a ser compressada: ",obj)
 
   # Criação de alfabeto inicial e dicionário
   dicionario = dicionario_first(obj)
@@ -27,8 +31,14 @@ def compressor_lzw(obj):
       tam=2
       continue
 
-  print("Resultado da compressão: ",saida)
-  print("Dicionário da compressão: \n", dicionario)
+  saida = saida.split(' ')
+  #print("Resultado da compressão: ",''.join(saida))
+  #print("Dicionário da compressão: \n", dicionario)
+  print(f"\n\nTamanho original: {len(obj)} \nTamanho da Compressão: {len(''.join(saida))}")
+  print(f"Taxa de compressão: {round((len(obj))/len(''.join(saida)), 3)}")
+  print(f"len(dicionario) = {len(dicionario)}")
+  #print(f"saida = {saida}")
+
   return dicionario
 
 
